@@ -90,10 +90,9 @@
             font-size: 12px;
             color: #777;
         }
-    </style>
+      </style>
 </head>
 <body>
-
     <button id="modeToggleButton" onclick="toggleMode()">Toggle Mode</button>
 
     <div class="container">
@@ -117,7 +116,7 @@
         </div>
 
         <button id="viewLogButton" onclick="viewLog()">View Log</button>
-        <button id="clearLogButton">Clear Log</button>
+        <button id="clearLogButton" onclick="clearLog()">Clear Log</button>
     </div>
 
     <!-- Modal for log -->
@@ -131,54 +130,7 @@
 
     <footer>sameelaughs</footer>
 
-    <script>
-        let darkMode = false;
-        let gameStarted = false;
-
-        function toggleMode() {
-            darkMode = !darkMode;
-            document.body.classList.toggle('dark-mode');
-        }
-
-        function startGame() {
-            const startButton = document.getElementById('startButton');
-            const buzzButton = document.getElementById('buzzButton');
-            const timer = document.getElementById('timer');
-            const score = document.getElementById('score');
-
-            if (!gameStarted) {
-                gameStarted = true;
-                startButton.style.display = 'none';
-                buzzButton.style.display = 'inline-block';
-                timer.style.display = 'block';
-                score.style.display = 'block';
-                document.getElementById('question').textContent = 'Get ready for the first question!';
-            }
-        }
-
-        function loadQuestions() {
-            const questions = document.getElementById('questionsInput').value;
-            if (questions.trim() !== "") {
-                alert("Questions loaded!");
-                console.log("Loaded Questions:\n", questions);
-            } else {
-                alert("Please paste some questions first.");
-            }
-        }
-
-        function viewLog() {
-            const logModal = document.getElementById('logModal');
-            logModal.style.display = 'flex';
-            document.getElementById('logContent').innerText = 'No log data available.';
-        }
-
-        function closeLog() {
-            document.getElementById('logModal').style.display = 'none';
-        }
-
-        function clearLog() {
-            alert('Log cleared!');
-        }
-    </script>
+    <!-- Link to external JavaScript file -->
+    <script src="script.js"></script>
 </body>
 </html>
