@@ -1,136 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html> 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>scrimantem</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            font-family: 'Tahoma', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #ebfafd;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
-        body.dark-mode {
-            background-color: #2e2e2e;
-            color: #e4d0a4;
-        }
-        .container {
-            width: 90%;
-            max-width: 600px;
-            text-align: center;
-            gap: 20px;
-        }
-        h1 {
-            font-size: 36px;
-            margin-bottom: 10px;
-        }
-        #timer, #score {
-            font-size: 18px;
-            margin-bottom: 15px;
-        }
-        #question {
-            font-size: 22px;
-            font-weight: 500;
-            margin: 20px 0;
-        }
-        button {
-            padding: 12px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 8px;
-            margin: 5px;
-        }
-        #buzzButton {
-            background-color: #4caf50;
-            color: white;
-        }
-        #submitAnswer {
-            background-color: lightblue;
-        }
-        #startButton {
-            background-color: #007bff;
-            color: white;
-        }
-        #answerInput {
-            padding: 10px;
-            font-size: 16px;
-            width: 100%;
-            max-width: 300px;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            display: none;
-        }
-        #pasteQuestionsArea {
-            margin: 20px 0;
-            text-align: center;
-        }
-        textarea {
-            width: 100%;
-            height: 100px;
-            margin-top: 10px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            resize: none;
-        }
-        footer {
-            position: fixed;
-            bottom: 10px;
-            width: 100%;
-            text-align: center;
-            font-size: 12px;
-            color: #777;
-        }
-      </style>
+    <link rel="stylesheet" href="light_theme.css">
 </head>
 <body>
-    <button id="modeToggleButton" onclick="toggleMode()">Toggle Mode</button>
-
-    <div class="container">
-        <h1>scrimantem</h1>
-        <p>Advanced Certamen Questions - only tossups</p>
-
-        <div id="timer" style="display: none;">Time Left: <span id="timeLeft">30</span> seconds</div>
-        <div id="question">Press "Start" to begin!</div>
-
-        <button id="startButton" onclick="startGame()">Start</button>
-        <button id="buzzButton" style="display: none;">Buzz!</button>
-        <input type="text" id="answerInput" placeholder="Your answer..." />
-        <button id="submitAnswer" style="display: none;">Submit Answer</button>
-
-        <div id="score" style="display: none;">Score: 0</div>
-
-        <div id="pasteQuestionsArea">
-            <h3>Paste Questions</h3>
-            <textarea id="questionsInput" placeholder="Paste your questions here..."></textarea>
-            <button onclick="loadQuestions()">Load Questions</button>
-        </div>
-
-        <button id="viewLogButton" onclick="viewLog()">View Log</button>
-        <button id="clearLogButton" onclick="clearLog()">Clear Log</button>
+<div class="header">
+    <p style="margin:0"><span class="h1">World's Ugliest Certamen Buzzer </span><span class="h2">messy but functional—just like its creator!</span></p>
+</div>
+<!--dummy header (for spacing)--> <div style="height: 55px;"></div>
+<div style="display:flex; width: 100%; justify-content: space-between;">
+    <div id="main">
+        <button type="button" onclick="start()" id="buzz" disabled>Start</button>
+        <button type="button" onclick="nextQuestion()" id="next" disabled>Next</button>
+        <input id="answerInput" placeholder="answer..." type="text" onchange="displayAnswer(); this.blur()" style="visibility: hidden;"></input>
+        <p id="answerline" style="display:inline"></p>
+        <div class="well" style="min-height:40px; margin-top:20px; margin-bottom:20px; border-radius: 4px; padding: 10px;"><p id="question" class="question"></p></div>
+        
+        <div id="questionLog"></div>
     </div>
-
-    <!-- Modal for log -->
-    <div class="modal" id="logModal">
-        <div class="modal-content">
-            <h2>Quiz Log</h2>
-            <div id="logContent"></div>
-            <button onclick="closeLog()">Close</button>
+    <div class="menu" id="menu">
+        <div class="menuItem">
+            <p class="menuHead">Instructions</p>
+            <div class="menuContent">
+                <ul>
+                    <li>Upload questions to <code class="buttonStyle">Start</code></li>
+                    <li>Press <code class="buttonStyle">Buzz</code> to answer</li>
+                    <li>Press <code class="buttonStyle">Next/Skip</code> to advance to the next question</li>
+                    <li>Enter an answer and then hit enter to reveal the correct answer and the rest of the question</li>
+                </ul>
+            </div>
+        </div>
+        <div class="menuItem">
+            <p class="menuHead">Room Settings</p>
+            <div class="menuContent">
+                <p>Reading Speed: <input id="readSpeed" type ="number" onchange="readSpeed = this.value" value="250"> ms/word</p> 
+                <p>Show Boni: <label class = "switch"><input type="checkbox" checked onchange="showBoni=!showBoni;"><span class="slider"></label></span></p>
+            </div>
+        </div>
+        <div class="menuItem">
+            <p class="menuHead">Preferences</p>
+            <div class="menuContent">
+                <p>Dark Mode <span class="comingSoon">Coming Soon!</span></p>
+                <p>Buzz Hotkey: <input placeholder="Space" style="width: 75px; text-align: center;" onchange="if(this.value){buzzKey = this.value}else{buzzKey=' '}"></p>
+                <p>Next/Skip Hotkey: <input placeholder="Enter" style="width: 75px; text-align: center;" onchange="if(this.value){nextKey = this.value}else{nextKey='ArrowRight'}"></p>
+            </div>
+        </div>
+        <!-- <div class="menuItem">
+            <p class="menuHead" >Search for Questions <span class="comingSoon">Coming much later!</span></p>
+            <div class="menuContent"></div>
+        </div> -->
+        <div class="menuItem">
+            <p class="menuHead">Upload Custom Questions</p>
+            <div class="menuContent">
+                <form>
+                    <textarea style="width: 95%; resize: vertical;" id="pasteTextInput" placeholder="Paste questions here..."></textarea>
+                    <input type="url" style="display: none;" id="googleDocLinkInput" placeholder="Link here..."> <br>
+                    <div id="statusBox" style="display: none;"><p></p></div>
+                    <p>Upload Source:</p>
+                    <input type="radio" name="uploadType" id="pasteText" checked onclick="document.getElementById('pasteTextInput').style.display='initial'; document.getElementById('googleDocLinkInput').style.display='none'">
+                    <label for="pasteText">Paste text</label> <br>
+                    <input type="radio" name="uploadType" id="googleDocLink" onclick="document.getElementById('googleDocLinkInput').style.display='initial'; document.getElementById('pasteTextInput').style.display='none'">
+                    <label for="googleDocLink">Link to Google Doc</label><br>
+                    <input type="button" style="margin-top:10px;" value="Upload!" onclick="getQuestions();">
+                </form>
+            </div> 
+        </div>
+        <div class="menuItem">
+            <p class="menuHead">About</p>
+            <div class="menuContent">
+                <p>Made by Saffron Liu</p>
+                <p style="font-size: small;">Inspired by <a style="font-size: small;" href="https://protobowl.com/" target="_blank">Protobowl</a> and <a style="font-size: small;" href="https://quizbug2.karangurazada.com" target="_blank">QuizBug 2</a></p> <br>
+                <p style="font-size: small;"><a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer">Github</a> | <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer/issues">Report a bug</a> | <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer">Suggest a feature</a></p>
+                <a>Fund our buzzer machine</a> <span class="comingSoon">Coming Soon!</span>
+            </div>
         </div>
     </div>
-
-    <footer>sameelaughs</footer>
-
-    <!-- Link to external JavaScript file -->
-    <script src="script.js"></script>
-</body>
+</div>
+</body> 
+<script src="main.js"></script>
+<script src="questions.js"></script>
+<script src="questions.test.js" defer></script>
 </html>
