@@ -1,234 +1,255 @@
-/* Used Colors:
-Grays:
-#ffffff - menu background (white)
-#f9f9f9 - page background
-#eeeeee - well background
-#808080 - menu/well/collapsible shadow (gray)
-#d3d3d3 - "Coming Soon" background (lightgrey)
-
-Blues:
-#e6f9ff - header background, status message background
-#00bfff - unvisited link (deepskyblue)
-#6495ed - visited link (cornflowerblue)
-
-Reds/pinks:
-#f08080 - "Coming Soon" text, error message (lightcoral)
-#fff0f0 - error message background (lavenderblush)
-
-Greens:
-#ccffe6 - status message background
-#00cc66 - status message
-*/
-
-html{
-    background-color:#f9f9f9;
-    padding: 0px 40px;
-    font-family: Calibri;
-    font-size: 15px;
+/* General Colors */
+:root {
+    --background: #f9f9f9;
+    --card-bg: #ffffff;
+    --header-bg: #e6f9ff;
+    --highlight-bg: #eeeeee;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --accent: #00bfff;
+    --accent-dark: #6495ed;
+    --error: #f08080;
+    --error-bg: #fff0f0;
+    --success: #00cc66;
+    --success-bg: #ccffe6;
+    --text-main: #333333;
+    --text-muted: #808080;
 }
 
-.header{
-    background-color: #e6f9ff;
-    position:absolute;
+/* Universal Styles */
+html {
+    background-color: var(--background);
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-main);
+}
+
+body {
+    margin: 0;
+}
+
+/* Header Styles */
+.header {
+    background-color: var(--header-bg);
+    position: sticky;
     top: 0;
-    left:0;
-    right: 0;
-    padding: 10px;
-    box-shadow: 0 0 3px gray;
+    z-index: 1000;
+    padding: 15px 20px;
+    box-shadow: 0 2px 4px var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.h1{
-    font-size: 20px;
-    margin-bottom: 5px;
-    font-family: 'Times New Roman', Times, serif;
-    margin-top: 0;
+.h1 {
+    font-size: 1.5em;
+    margin: 0;
+    font-family: 'Georgia', serif;
     font-weight: bold;
 }
 
-.h2{
+.h2 {
     font-style: italic;
-    font-weight: lighter;
-    font-size: 15px;
-    margin:0;
-    font-family: 'Times New Roman', Times, serif;
+    font-size: 0.9em;
+    margin: 0;
+    color: var(--text-muted);
 }
 
-#main{
-    margin-right: 20px;
+/* Main Section */
+#main {
+    flex: 1;
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 20px;
+}
+
+button {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--accent-dark);
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
     width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid var(--highlight-bg);
+    border-radius: 5px;
+    background-color: var(--card-bg);
+    box-shadow: 0 1px 3px var(--shadow) inset;
+    font-size: 14px;
 }
 
-ul{
-    padding-left: 20px;
-    margin: 0px;
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 5px var(--accent);
 }
 
-li{
-    margin:5px 0px;
+/* Well */
+.well {
+    background-color: var(--highlight-bg);
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px var(--shadow);
 }
 
-.menu{
-    max-width: 250px;
-    min-width: 230px;
-}
-.menuItem{
-    background-color: white;
-    border-radius: 3px;
-    box-shadow: 0 0 3px gray;
-    margin-bottom: 15px;
-    padding: 10px
-}
-
-.menuHead{
-    font-weight: bold;
-    margin: 0;
-    padding-bottom: 10px;
-    
-}
-
-.menuContent p{
-    margin: 5px 0px;
-}
-
-.well{
-    background-color: #eeeeee;
-    box-shadow: inset 0 0 2px gray;
-    border-radius:0px 0px 4px 4px;
-}
-
-.answer{
-    text-align: right;
-    font-weight: bold;
-}
-.content > * {
-    margin: 15px;
-}
-
-.collapsible{
-    min-width: 100%;
-    text-align: left;
-    min-height: 40px;
+/* Menu */
+.menu {
+    width: 250px;
     margin-top: 20px;
-    border-radius: 3px;
-    border:0;
-    box-shadow: 0 0 3px gray;
-    border-bottom:0px;
+}
+
+.menuItem {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--shadow);
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+.menuHead {
     font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
 }
 
-.content{
-    max-height: 0;
-    transition: max-height 0.9s ease-out/*, padding 0.05s ease-out*/;
-    overflow: hidden;
-    padding-top: 0px;
-    box-shadow: 0 0 3px gray;
-    background-color: #ffffff;
-    border-radius:0px 0px 4px 4px;
+.menuContent p,
+ul {
+    margin: 0 0 10px;
+    color: var(--text-muted);
 }
 
-code.buttonStyle{
-    border-radius: 2px;
-    padding: 2px;
-    background-color: #d3d3d3;
-    font-size: 13px;
-    border-color: #808080;
-    border-width: 1px;
-    border-style: groove;
+ul {
+    padding-left: 20px;
 }
 
-.comingSoon{
-    background-color: lightgrey;
-    font-size: x-small;
-    color: lightcoral;
-    padding: 2px;
-    width: fit-content;
-    border-radius: 2px;
-    display: inline;
-    font-weight: normal;
-}
-/* following both remove arrows from number input*/
-input[type=number]{
-    width: 35px; 
-    text-align: center;
-    -moz-appearance: textfield;
+/* Status Box */
+#statusBox {
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 10px;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+.status {
+    background-color: var(--header-bg);
+    color: var(--accent);
 }
 
-/*Toggle Button*/
-.switch{
+.error {
+    background-color: var(--error-bg);
+    color: var(--error);
+}
+
+.confirmation {
+    background-color: var(--success-bg);
+    color: var(--success);
+}
+
+/* Links */
+a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--accent-dark);
+}
+
+/* Toggles */
+.switch {
     display: inline-block;
     position: relative;
-    background-color: #808080;
-    width: 35px;
+    width: 40px;
     height: 20px;
-    border-radius: 10px;
-    margin-left: 5px;
+    background-color: var(--text-muted);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .switch input {
     opacity: 0;
-    height: 0;
     width: 0;
+    height: 0;
 }
 
-.slider{
+.slider {
     position: absolute;
-    left:0;
-    top:0;
-    width: 35px;
-    height: 20px;
-    border-radius: 10px;
-}
-input:checked+.slider {
-    background-color: #00bfff;
-}
-
-.slider::before{ /*white button part*/
-    content: "";
-    position: absolute;
-    top: 2.5px;
-    left: 2.5px;
-    background-color: white;
-    width: 15px;
-    height: 15px;
-    border-radius: 10px;
-    transition: .2s;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    background-color: var(--card-bg);
+    border-radius: 50%;
+    transition: 0.3s;
 }
 
-input:checked+.slider::before {
-    transform: translateX(15px);
+input:checked + .slider {
+    background-color: var(--accent);
+    transform: translateX(20px);
 }
 
-#statusBox{
-    padding: 0 5px;
+/* Collapsible Sections */
+.collapsible {
+    cursor: pointer;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    background-color: var(--highlight-bg);
+    box-shadow: 0 2px 4px var(--shadow);
+    border-radius: 5px;
+    text-align: left;
+    outline: none;
+    transition: background-color 0.3s ease;
+}
+
+.collapsible:hover {
+    background-color: var(--card-bg);
+}
+
+.content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.collapsible.active + .content {
+    max-height: 500px; /* Adjust as necessary */
+}
+
+/* Miscellaneous */
+code.buttonStyle {
+    padding: 5px 8px;
+    background-color: var(--highlight-bg);
     border-radius: 3px;
-    border-width: 1.5px;
-    border-style: solid;
-    font-size: small;
-}
-.status{
-    background-color: #e6f9ff;
-    color: deepskyblue;
+    font-size: 13px;
+    color: var(--text-muted);
 }
 
-.error{
-    color: lightcoral;
-    background-color: lavenderblush;
-}
-
-.confirmation{
-    background-color: #ccffe6;
-    color: #00cc66;
-}
-
-a:link{
-    color: deepskyblue;
-}
-a:visited{
-    color:cornflowerblue;
+.comingSoon {
+    font-size: 12px;
+    color: var(--error);
+    background-color: var(--highlight-bg);
+    padding: 3px 5px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-left: 10px;
+    font-weight: normal;
 }
