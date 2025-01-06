@@ -1,83 +1,140 @@
 <!DOCTYPE html>
-<html> 
+<html lang="en"> 
 <head>
-    <link rel="stylesheet" href="light_theme.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World's Ugliest Certamen Buzzer</title>
+    <link rel="stylesheet" href="styles.css"> <!-- external css for styles -->
 </head>
 <body>
-<div class="header">
-    <p style="margin:0"><span class="h1">World's Ugliest Certamen Buzzer </span><span class="h2">messy but functional—just like its creator!</span></p>
-</div>
-<!--dummy header (for spacing)--> <div style="height: 55px;"></div>
-<div style="display:flex; width: 100%; justify-content: space-between;">
-    <div id="main">
-        <button type="button" onclick="start()" id="buzz" disabled>Start</button>
-        <button type="button" onclick="nextQuestion()" id="next" disabled>Next</button>
-        <input id="answerInput" placeholder="answer..." type="text" onchange="displayAnswer(); this.blur()" style="visibility: hidden;"></input>
-        <p id="answerline" style="display:inline"></p>
-        <div class="well" style="min-height:40px; margin-top:20px; margin-bottom:20px; border-radius: 4px; padding: 10px;"><p id="question" class="question"></p></div>
+    <!-- header section -->
+    <header class="header">
+        <p>
+            <span class="h1">World's Ugliest Certamen Buzzer</span>
+            <span class="h2">messy but functional—just like its creator!</span>
+        </p>
+    </header>
+    
+    <!-- dummy header for spacing -->
+    <div class="spacer"></div>
+    
+    <!-- main content -->
+    <main style="display: flex; justify-content: space-between;">
+        <!-- main controls section -->
+        <section id="main">
+            <button type="button" id="buzz" disabled onclick="start()">Start</button>
+            <button type="button" id="next" disabled onclick="nextQuestion()">Next</button>
+            <input 
+                id="answerInput" 
+                type="text" 
+                placeholder="answer..." 
+                onchange="displayAnswer(); this.blur()" 
+                style="visibility: hidden;">
+            <p id="answerline"></p>
+            
+            <div class="well">
+                <p id="question" class="question"></p>
+            </div>
+            
+            <div id="questionLog"></div>
+        </section>
         
-        <div id="questionLog"></div>
-    </div>
-    <div class="menu" id="menu">
-        <div class="menuItem">
-            <p class="menuHead">Instructions</p>
-            <div class="menuContent">
-                <ul>
-                    <li>Upload questions to <code class="buttonStyle">Start</code></li>
-                    <li>Press <code class="buttonStyle">Buzz</code> to answer</li>
-                    <li>Press <code class="buttonStyle">Next/Skip</code> to advance to the next question</li>
-                    <li>Enter an answer and then hit enter to reveal the correct answer and the rest of the question</li>
-                </ul>
+        <!-- menu section -->
+        <aside class="menu" id="menu">
+            <div class="menuItem">
+                <p class="menuHead">Instructions</p>
+                <div class="menuContent">
+                    <ul>
+                        <li>upload questions to <code class="buttonStyle">Start</code></li>
+                        <li>press <code class="buttonStyle">Buzz</code> to answer</li>
+                        <li>press <code class="buttonStyle">Next/Skip</code> to advance to the next question</li>
+                        <li>enter an answer and then hit enter to reveal the correct answer and the rest of the question</li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <div class="menuItem">
-            <p class="menuHead">Room Settings</p>
-            <div class="menuContent">
-                <p>Reading Speed: <input id="readSpeed" type ="number" onchange="readSpeed = this.value" value="250"> ms/word</p> 
-                <p>Show Boni: <label class = "switch"><input type="checkbox" checked onchange="showBoni=!showBoni;"><span class="slider"></label></span></p>
+            
+            <div class="menuItem">
+                <p class="menuHead">Room Settings</p>
+                <div class="menuContent">
+                    <p>reading speed: <input id="readSpeed" type="number" onchange="readSpeed = this.value" value="250"> ms/word</p> 
+                    <p>show boni: 
+                        <label class="switch">
+                            <input type="checkbox" checked onchange="showBoni=!showBoni;">
+                            <span class="slider"></span>
+                        </label>
+                    </p>
+                </div>
             </div>
-        </div>
-        <div class="menuItem">
-            <p class="menuHead">Preferences</p>
-            <div class="menuContent">
-                <p>Dark Mode <span class="comingSoon">Coming Soon!</span></p>
-                <p>Buzz Hotkey: <input placeholder="Space" style="width: 75px; text-align: center;" onchange="if(this.value){buzzKey = this.value}else{buzzKey=' '}"></p>
-                <p>Next/Skip Hotkey: <input placeholder="Enter" style="width: 75px; text-align: center;" onchange="if(this.value){nextKey = this.value}else{nextKey='ArrowRight'}"></p>
+            
+            <div class="menuItem">
+                <p class="menuHead">Preferences</p>
+                <div class="menuContent">
+                    <p>dark mode <span class="comingSoon">coming soon!</span></p>
+                    <p>buzz hotkey: 
+                        <input 
+                            placeholder="Space" 
+                            style="width: 75px; text-align: center;" 
+                            onchange="if(this.value){buzzKey = this.value}else{buzzKey=' '}">
+                    </p>
+                    <p>next/skip hotkey: 
+                        <input 
+                            placeholder="Enter" 
+                            style="width: 75px; text-align: center;" 
+                            onchange="if(this.value){nextKey = this.value}else{nextKey='ArrowRight'}">
+                    </p>
+                </div>
             </div>
-        </div>
-        <!-- <div class="menuItem">
-            <p class="menuHead" >Search for Questions <span class="comingSoon">Coming much later!</span></p>
-            <div class="menuContent"></div>
-        </div> -->
-        <div class="menuItem">
-            <p class="menuHead">Upload Custom Questions</p>
-            <div class="menuContent">
-                <form>
-                    <textarea style="width: 95%; resize: vertical;" id="pasteTextInput" placeholder="Paste questions here..."></textarea>
-                    <input type="url" style="display: none;" id="googleDocLinkInput" placeholder="Link here..."> <br>
-                    <div id="statusBox" style="display: none;"><p></p></div>
-                    <p>Upload Source:</p>
-                    <input type="radio" name="uploadType" id="pasteText" checked onclick="document.getElementById('pasteTextInput').style.display='initial'; document.getElementById('googleDocLinkInput').style.display='none'">
-                    <label for="pasteText">Paste text</label> <br>
-                    <input type="radio" name="uploadType" id="googleDocLink" onclick="document.getElementById('googleDocLinkInput').style.display='initial'; document.getElementById('pasteTextInput').style.display='none'">
-                    <label for="googleDocLink">Link to Google Doc</label><br>
-                    <input type="button" style="margin-top:10px;" value="Upload!" onclick="getQuestions();">
-                </form>
-            </div> 
-        </div>
-        <div class="menuItem">
-            <p class="menuHead">About</p>
-            <div class="menuContent">
-                <p>Made by Saffron Liu</p>
-                <p style="font-size: small;">Inspired by <a style="font-size: small;" href="https://protobowl.com/" target="_blank">Protobowl</a> and <a style="font-size: small;" href="https://quizbug2.karangurazada.com" target="_blank">QuizBug 2</a></p> <br>
-                <p style="font-size: small;"><a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer">Github</a> | <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer/issues">Report a bug</a> | <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer">Suggest a feature</a></p>
-                <a>Fund our buzzer machine</a> <span class="comingSoon">Coming Soon!</span>
+            
+            <!-- upload custom questions section -->
+            <div class="menuItem">
+                <p class="menuHead">Upload Custom Questions</p>
+                <div class="menuContent">
+                    <form>
+                        <textarea 
+                            style="width: 95%; resize: vertical;" 
+                            id="pasteTextInput" 
+                            placeholder="paste questions here..."></textarea>
+                        <input 
+                            type="url" 
+                            style="display: none;" 
+                            id="googleDocLinkInput" 
+                            placeholder="link here..."> <br>
+                        <div id="statusBox" style="display: none;"><p></p></div>
+                        <p>upload source:</p>
+                        <input type="radio" name="uploadType" id="pasteText" checked 
+                            onclick="document.getElementById('pasteTextInput').style.display='initial'; document.getElementById('googleDocLinkInput').style.display='none'">
+                        <label for="pasteText">paste text</label> <br>
+                        <input type="radio" name="uploadType" id="googleDocLink" 
+                            onclick="document.getElementById('googleDocLinkInput').style.display='initial'; document.getElementById('pasteTextInput').style.display='none'">
+                        <label for="googleDocLink">link to google doc</label><br>
+                        <input type="button" style="margin-top:10px;" value="upload!" onclick="getQuestions();">
+                    </form>
+                </div> 
             </div>
-        </div>
-    </div>
-</div>
+            
+            <!-- about section -->
+            <div class="menuItem">
+                <p class="menuHead">About</p>
+                <div class="menuContent">
+                    <p>made by saffron liu</p>
+                    <p style="font-size: small;">inspired by 
+                        <a style="font-size: small;" href="https://protobowl.com/" target="_blank">protobowl</a> and 
+                        <a style="font-size: small;" href="https://quizbug2.karangurazada.com" target="_blank">quizbug 2</a>
+                    </p> <br>
+                    <p style="font-size: small;">
+                        <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer">github</a> | 
+                        <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer/issues">report a bug</a> | 
+                        <a style="font-size: small;" href="https://github.com/SapphireHue/Certamen-Buzzer">suggest a feature</a>
+                    </p>
+                    <a>fund our buzzer machine</a> <span class="comingSoon">coming soon!</span>
+                </div>
+            </div>
+        </aside>
+    </main>
+    
+    <!-- scripts -->
+    <script src="main.js"></script>
+    <script src="questions.js"></script>
+    <script src="questions.test.js" defer></script>
 </body> 
-<script src="main.js"></script>
-<script src="questions.js"></script>
-<script src="questions.test.js" defer></script>
 </html>
